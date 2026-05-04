@@ -38,7 +38,7 @@
     <p class="sub">Enter your room details<br>to get connected</p>
 
     <div class="label">Room number</div>
-    <input id="room" type="text" placeholder="e.g. 204" maxlength="4" />
+    <input id="room" type="text" placeholder="e.g. 204" maxlength="10" />
     <div class="error" id="room-error">Please enter a valid room number (numbers only).</div>
 
     <div class="label">Last name</div>
@@ -117,7 +117,6 @@
       document.getElementById('overlay').classList.add('show');
     }
 
-    // 팝업 버튼 - a 태그 방식으로 이동
     document.getElementById('popup-btn').addEventListener('click', function() {
       window.location.href = 'page-b.html';
     });

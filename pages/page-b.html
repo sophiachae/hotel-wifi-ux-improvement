@@ -35,7 +35,6 @@
 <body>
   <div class="container">
 
-    <!-- 입력 화면 -->
     <div id="form-state">
       <div class="logo">The Grand Hotel</div>
       <button class="back" onclick="history.back()">← Back</button>
@@ -43,14 +42,19 @@
       <p class="sub">Enter your promo code<br>found on your key wallet card</p>
       <div class="label">Promotion code</div>
       <div class="input-row">
-        <input id="promo-input" type="text" placeholder="e.g. ROOM204" maxlength="10" />
-        <button class="btn" onclick="handleConnect()">Connect</button>
+        <input 
+          id="promo-input" 
+          type="text" 
+          placeholder="e.g. ROOM204" 
+          maxlength="20" 
+          oninput="this.value = this.value.toUpperCase(); document.getElementById('error-msg').style.display = 'none'; this.style.borderColor = '';" 
+        />
+        <button class="btn connect-btn-sm" onclick="handleConnect()">Connect</button>
       </div>
       <div class="error" id="error-msg">Invalid code. Please check your key wallet card.</div>
       <p class="help">Need help? Ask at reception.</p>
     </div>
 
-    <!-- 성공 화면 -->
     <div id="success-state" class="success">
       <div class="logo">The Grand Hotel</div>
       <div class="success-icon">✅</div>
@@ -72,7 +76,14 @@
   </div>
 
   <script>
-    const VALID_CODES = { 'ROOM201': true, 'ROOM202': true, 'ROOM204': true, 'VIP001': true, 'TEST': true };
+    const VALID_CODES = { 
+      'ROOM201': true, 
+      'ROOM202': true, 
+      'ROOM204': true, 
+      'VIP001': true, 
+      'TEST': true,
+      'WELCOMEGUEST': true 
+    };
 
     function handleConnect() {
       const input = document.getElementById('promo-input');
@@ -82,21 +93,22 @@
       if (!code) {
         errorMsg.style.display = 'block';
         errorMsg.textContent = 'Please enter your promo code.';
+        input.style.borderColor = '#e24b4a';
         return;
       }
+      
       if (VALID_CODES[code]) {
         document.getElementById('form-state').style.display = 'none';
         document.getElementById('success-state').style.display = 'block';
       } else {
         errorMsg.style.display = 'block';
+        errorMsg.textContent = 'Invalid code. Please check your key wallet card.';
         input.style.borderColor = '#e24b4a';
       }
     }
 
     document.getElementById('promo-input').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') handleConnect();
-      this.style.borderColor = '';
-      document.getElementById('error-msg').style.display = 'none';
     });
   </script>
 </body>
