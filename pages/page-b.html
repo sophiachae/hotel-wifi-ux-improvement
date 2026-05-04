@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Wi-Fi - Page B</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, sans-serif; background: #f5f5f5; display: flex; justify-content: center; padding: 2rem 1rem; }
+    .container { width: 100%; max-width: 390px; }
+    .logo { font-size: 13px; font-weight: 500; color: #888; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem; }
+    .back { background: none; border: none; font-size: 13px; color: #888; cursor: pointer; padding: 0; margin-bottom: 2rem; display: block; }
+    h1 { font-size: 22px; font-weight: 500; text-align: center; margin-bottom: 0.5rem; }
+    .sub { font-size: 14px; color: #888; text-align: center; margin-bottom: 2rem; line-height: 1.6; }
+    .label { font-size: 12px; color: #888; margin-bottom: 6px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 0.5rem; }
+    input { flex: 1; height: 44px; border: 1px solid #ddd; border-radius: 8px; padding: 0 12px; font-size: 15px; background: #fff; outline: none; font-family: monospace; letter-spacing: 0.05em; text-transform: uppercase; }
+    input:focus { border-color: #333; }
+    .btn { height: 44px; padding: 0 20px; border-radius: 8px; border: none; background: #111; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+    .error { font-size: 12px; color: #e24b4a; margin-top: 6px; display: none; }
+    .help { font-size: 12px; color: #aaa; text-align: center; margin-top: 1.5rem; }
+
+    /* 성공 화면 */
+    .success { display: none; text-align: center; }
+    .success-icon { font-size: 48px; margin-bottom: 1rem; }
+    .success-title { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
+    .success-sub { font-size: 14px; color: #888; margin-bottom: 2rem; }
+    .wifi-card { background: #fff; border-radius: 12px; padding: 1.25rem; text-align: left; }
+    .wifi-row { display: flex; justify-content: space-between; padding: 6px 0; }
+    .wifi-row:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+    .wifi-key { font-size: 13px; color: #888; }
+    .wifi-val { font-size: 13px; font-weight: 500; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 입력 화면 -->
+    <div id="form-state">
+      <div class="logo">The Grand Hotel</div>
+      <button class="back" onclick="history.back()">← Back</button>
+      <h1>Promotion Code</h1>
+      <p class="sub">Enter your promo code<br>found on your key wallet card</p>
+      <div class="label">Promotion code</div>
+      <div class="input-row">
+        <input id="promo-input" type="text" placeholder="e.g. ROOM204" maxlength="10" />
+        <button class="btn" onclick="handleConnect()">Connect</button>
+      </div>
+      <div class="error" id="error-msg">Invalid code. Please check your key wallet card.</div>
+      <p class="help">Need help? Ask at reception.</p>
+    </div>
+
+    <!-- 성공 화면 -->
+    <div id="success-state" class="success">
+      <div class="logo">The Grand Hotel</div>
+      <div class="success-icon">✅</div>
+      <div class="success-title">You're connected!</div>
+      <div class="success-sub">Enjoy your stay 🎉</div>
+      <div class="wifi-card">
+        <div class="wifi-row">
+          <span class="wifi-key">Network</span>
+          <span class="wifi-val">GRAND_HOTEL_5G</span>
+        </div>
+        <div class="wifi-row">
+          <span class="wifi-key">Password</span>
+          <span class="wifi-val">WELCOME2024</span>
+        </div>
+      </div>
+      <p class="help" style="margin-top:1.5rem;">Having trouble? Ask at reception.</p>
+    </div>
+
+  </div>
+
+  <script>
+    const VALID_CODES = { 'ROOM201': true, 'ROOM202': true, 'ROOM204': true, 'VIP001': true, 'TEST': true };
+
+    function handleConnect() {
+      const input = document.getElementById('promo-input');
+      const code = input.value.trim().toUpperCase();
+      const errorMsg = document.getElementById('error-msg');
+
+      if (!code) {
+        errorMsg.style.display = 'block';
+        errorMsg.textContent = 'Please enter your promo code.';
+        return;
+      }
+      if (VALID_CODES[code]) {
+        document.getElementById('form-state').style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+        input.style.borderColor = '#e24b4a';
+      }
+    }
+
+    document.getElementById('promo-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleConnect();
+      this.style.borderColor = '';
+      document.getElementById('error-msg').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
